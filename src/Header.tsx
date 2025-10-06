@@ -1,4 +1,3 @@
-
 interface HeaderProps {
   setSchema: (schema: unknown) => void;
 }
@@ -12,10 +11,9 @@ function Header({ setSchema }: HeaderProps) {
     } catch { }
   }
 
-  return <header>
+  return <header className="row">
     <h1>Avro Visualiser</h1>
-    <textarea onChange={onChange}>
-    </textarea>
+    <textarea onChange={onChange}></textarea>
     <hr />
   </header>
 }

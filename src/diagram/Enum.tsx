@@ -5,13 +5,16 @@ interface EnumProps {
 }
 
 function Enum({ schema }: EnumProps) {
-  return <div className="diagram-item diagram-enum">
-    <div className="diagram-item-title diagram-enum-title">{schema.name}</div>
-    <div className="diagram-item-subtitle diagram-enum-subtitle">{schema.namespace}</div>
-    <div className="diagram-item-body">
-      {schema.symbols.map((option) => <div className="diagram-enum-symbol">{option}</div>)}
+  return <div className="card">
+    <div className="card-header bg-success text-white">Enum</div>
+    <div className="card-body">
+      <h5 className="card-title">{schema.name}</h5>
+      <h6 className="card-subtitlle mb-2 text-muted">{schema.namespace}</h6>
+      <ul className="list-group list-group-flush">
+        {schema.symbols.map((option) => <li className="list-group-item">{option}</li>)}
+      </ul>
     </div>
-  </div>
+  </div >
 }
 
 export default Enum
