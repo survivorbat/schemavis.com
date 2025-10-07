@@ -225,7 +225,7 @@ export const parseSchema = (schema: any, namespace: string): Schema => {
 
 const parseUnion = (schemas: any[], namespace: string): Schema => {
   // We don't consider nulllable types 
-  if (schemas.length == 2 && schemas.includes("null")) {
+  if (schemas.length === 2 && schemas.includes("null")) {
     const nonNullSchema = schemas[schemas.indexOf("null") ^ 1];
 
     if (isSimpleType(nonNullSchema)) {
