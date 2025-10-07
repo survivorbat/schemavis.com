@@ -44,6 +44,7 @@ export interface Schema {
   records(): RecordSchema[];
   enums(): EnumSchema[];
   typeName(): string;
+  schemaType(): string;
 }
 
 export class RecordSchema implements Schema {
@@ -59,6 +60,10 @@ export class RecordSchema implements Schema {
 
   typeName(): string {
     return this.name;
+  }
+
+  schemaType(): string {
+    return "record";
   }
 }
 
@@ -80,6 +85,10 @@ export class EnumSchema implements Schema {
   typeName(): string {
     return this.name;
   }
+
+  schemaType(): string {
+    return "enum";
+  }
 }
 
 export class ArraySchema implements Schema {
@@ -95,6 +104,10 @@ export class ArraySchema implements Schema {
 
   typeName(): string {
     return `${this.items.typeName()}[]`
+  }
+
+  schemaType(): string {
+    return this.items.schemaType();
   }
 }
 
@@ -112,6 +125,10 @@ export class MapSchema {
   typeName(): string {
     return `map[string]${this.values.typeName()}`
   }
+
+  schemaType(): string {
+    return this.values.schemaType();
+  }
 }
 
 export class UnionSchema implements Schema {
@@ -127,6 +144,10 @@ export class UnionSchema implements Schema {
 
   typeName(): string {
     return this.types.map((type): string => type.typeName()).join(" | ")
+  }
+
+  schemaType(): string {
+    return this.types.map((type): string => type.schemaType()).join(" | ");
   }
 }
 
@@ -147,6 +168,10 @@ export class SimpleType implements Schema {
     }
 
     return this.type
+  }
+
+  schemaType(): string {
+    return this.typeName();
   }
 }
 
@@ -173,11 +198,19 @@ export const parseSchema = (schema: any, namespace: string): Schema => {
         return new ArraySchema(new SimpleType(schema.items));
       }
 
+      if (Array.isArray(schema.items)) {
+        return new ArraySchema(parseUnion(schema.items, namespace));
+      }
+
       return new ArraySchema(parseSchema(schema.items, namespace));
 
     case 'map':
       if (isSimpleType(schema.values)) {
         return new MapSchema(new SimpleType(schema.values));
+      }
+
+      if (Array.isArray(schema.values)) {
+        return new MapSchema(parseUnion(schema.values, namespace));
       }
 
       return new MapSchema(parseSchema(schema.values, namespace));

@@ -5,7 +5,7 @@ interface EnumProps {
 }
 
 function Enum({ schema }: EnumProps) {
-  return <div className="card text-center" style={{ "minWidth": "15em" }} >
+  return <div className="card text-center mb-5" style={{ "minWidth": "15em" }} >
     <div className="card-header bg-success text-white fw-bold">Enum</div>
     <div className="card-body">
       <h5 className="card-title">{schema.name}</h5>
