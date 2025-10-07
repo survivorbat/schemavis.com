@@ -1,20 +1,6 @@
-interface HeaderProps {
-  setSchema: (schema: unknown) => void;
-}
-
-function Header({ setSchema }: HeaderProps) {
-
-  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    try {
-      const data = JSON.parse(event.target.value);
-      setSchema(data);
-    } catch { }
-  }
-
-  return <header className="row">
+function Header() {
+  return <header className="text-center m-5">
     <h1>Avro Visualiser</h1>
-    <textarea onChange={onChange}></textarea>
-    <hr />
   </header>
 }
 

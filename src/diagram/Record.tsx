@@ -1,23 +1,26 @@
-import { RecordField, RecordSchema } from "./schema"
+import { RecordField, RecordSchema } from "../models/schema"
 
 interface RecordProps {
   schema: RecordSchema;
 }
 
 function Record({ schema }: RecordProps) {
-  return <div className="card">
-    <div className="card-header bg-primary text-white">Record</div>
+  return <div className="card text-center" style={{ "minWidth": "20em" }}>
+    <div className="card-header bg-primary text-white fw-bold">Record</div>
     <div className="card-body">
       <h5 className="card-title">{schema.name}</h5>
-      <h6 className="card-subtitlle mb-2 text-muted">{schema.namespace}</h6>
-      <ul className="list-group list-group-flush">
-        {schema.fields.map((field: RecordField) =>
-          <li className="list-group-item d-flex justify-content-between">
-            <div>{field.name}</div>
-            <div>{field.type.typeName()}</div>
-          </li>
-        )}
-      </ul>
+      <h6 className="card-subtitle mb-2 text-muted">{schema.namespace}</h6>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {schema.fields.map((field: RecordField) => <tr key={field.name}><td>{field.name}</td><td>{field.type.typeName()}</td></tr>)}
+        </tbody>
+      </table>
     </div>
   </div >
 }

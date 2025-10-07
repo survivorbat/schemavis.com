@@ -1,9 +1,9 @@
 import Enum from "./Enum";
 import Record from "./Record";
-import { parseSchema } from "./schema";
+import { Schema } from "../models/schema";;
 
 interface DiagramProps {
-  schema: any;
+  schema: Schema | null;
 }
 
 function Diagram({ schema }: DiagramProps) {
@@ -11,11 +11,9 @@ function Diagram({ schema }: DiagramProps) {
     return <></>
   }
 
-  const parsedSchema = parseSchema(schema, "");
-
-  return <div className="d-flex justify-content-around">
-    {parsedSchema.enums().map((enumSchema) => <Enum schema={enumSchema}></Enum>)}
-    {parsedSchema.records().map((recordSchema) => <Record schema={recordSchema}></Record>)}
+  return <div className="d-flex flex-wrap justify-content-around">
+    {schema.enums().map((enumSchema) => <Enum key={enumSchema.name} schema={enumSchema}></Enum>)}
+    {schema.records().map((recordSchema) => <Record key={recordSchema.name} schema={recordSchema}></Record>)}
   </div>
 }
 

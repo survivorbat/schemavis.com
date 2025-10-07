@@ -1,20 +1,23 @@
-import { EnumSchema } from "./schema";
+import { EnumSchema } from "../models/schema";
 
 interface EnumProps {
   schema: EnumSchema;
 }
 
 function Enum({ schema }: EnumProps) {
-  return <div className="card">
-    <div className="card-header bg-success text-white">Enum</div>
+  return <div className="card text-center" style={{ "minWidth": "15em" }} >
+    <div className="card-header bg-success text-white fw-bold">Enum</div>
     <div className="card-body">
       <h5 className="card-title">{schema.name}</h5>
-      <h6 className="card-subtitlle mb-2 text-muted">{schema.namespace}</h6>
-      <ul className="list-group list-group-flush">
-        {schema.symbols.map((option) => <li className="list-group-item">{option}</li>)}
-      </ul>
+      <h6 className="card-subtitle mb-2 text-muted">{schema.namespace}</h6>
+      <table className="table">
+        <tr>
+          <th>Symbol</th>
+        </tr>
+        {schema.symbols.map((option) => <tr><td>{option}</td></tr>)}
+      </table>
     </div>
-  </div >
+  </div>
 }
 
 export default Enum

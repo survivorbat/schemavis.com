@@ -184,9 +184,10 @@ export const parseSchema = (schema: any, namespace: string): Schema => {
 
     case 'enum':
       return new EnumSchema(schema.name, schema.namespace || namespace, schema.symbols);
-  }
 
-  throw new Error(`failed to determine type: ${schema}`);
+    default:
+      return new SimpleType(schema);
+  }
 };
 
 const parseUnion = (schemas: any[], namespace: string): Schema => {
