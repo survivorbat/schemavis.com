@@ -1,4 +1,4 @@
-import { EnumSchema } from "../models/schema";
+import { EnumSchema } from "../models/EnumSchema";
 
 interface EnumProps {
   schema: EnumSchema;
@@ -11,10 +11,14 @@ function Enum({ schema }: EnumProps) {
       <h5 className="card-title">{schema.name}</h5>
       <h6 className="card-subtitle mb-2 text-muted">{schema.namespace}</h6>
       <table className="table">
-        <tr>
-          <th>Symbol</th>
-        </tr>
-        {schema.symbols.map((option) => <tr><td>{option}</td></tr>)}
+        <thead>
+          <tr>
+            <th>Symbol</th>
+          </tr>
+        </thead>
+        <tbody>
+          {schema.symbols.map((symbol) => <tr key={symbol}><td>{symbol}</td></tr>)}
+        </tbody>
       </table>
     </div>
   </div>

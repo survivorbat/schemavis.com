@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { parseSchema, Schema } from "./models/schema";
+import { parseSchema } from "./models/parse";
+import { Schema } from "./models/Schema";
+import Editor from "@monaco-editor/react"
+import dummySchema from "./dummy-schema.json";
+
+const defaultJSON = JSON.stringify(dummySchema, null, 4);
 
 interface HeaderProps {
   setSchema: (schema: Schema) => void;
@@ -8,11 +13,11 @@ interface HeaderProps {
 function Sidebar({ setSchema }: HeaderProps) {
   const [errorMessage, setErrorMessage] = useState("")
 
-  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChange = (value: string | undefined) => {
     try {
       setErrorMessage("")
-      const data = JSON.parse(event.target.value);
-      const parsed = parseSchema(data, '');
+      const data = JSON.parse(value!);
+      const parsed = parseSchema(data, 0, '');
       setSchema(parsed)
     } catch (e: any) {
       setErrorMessage(e.message);
@@ -20,15 +25,20 @@ function Sidebar({ setSchema }: HeaderProps) {
   }
 
   return <aside>
-    <span className="text-error">{errorMessage}</span>
-    <textarea
-      className="form-control"
-      placeholder="Insert AVRO schema here"
-      style={{ "width": "100%", "height": "50vh" }}
+    <Editor
+      height="60vh"
+      width="100%"
+      defaultLanguage="json"
+      value={defaultJSON}
       onChange={onChange}
-    >
-    </textarea>
-  </aside>
+      options={{
+        minimap: { enabled: false },
+        lineNumbers: 'on',
+        automaticLayout: true,
+      }}
+    />
+    <span className="text-danger">{errorMessage}</span>
+  </aside >
 }
 
 export default Sidebar;

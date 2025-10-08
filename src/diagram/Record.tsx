@@ -1,10 +1,12 @@
-import { RecordField, RecordSchema } from "../models/schema"
+import React, { JSX } from "react";
+import { RecordField, RecordSchema } from "../models/RecordSchema";
+import TypeBadge from "./TypeBadge";
 
 interface RecordProps {
   schema: RecordSchema;
 }
 
-function Record({ schema }: RecordProps) {
+function Record({ schema }: RecordProps): JSX.Element {
   return <div className="card text-center mb-5" style={{ "minWidth": "20em" }}>
     <div className="card-header bg-primary text-white fw-bold">Record</div>
     <div className="card-body">
@@ -14,31 +16,20 @@ function Record({ schema }: RecordProps) {
         <thead>
           <tr>
             <th scope="col">Field</th>
+            <th scope="col">Default</th>
             <th scope="col">Type</th>
           </tr>
         </thead>
         <tbody>
-          {schema.fields.map((field: RecordField) => {
-            let fieldClasses = ""
-
-            switch (field.type.schemaType()) {
-              case "record":
-                fieldClasses = "badge bg-primary"
-                break;
-              case "enum":
-                fieldClasses = "badge bg-success"
-                break;
-            }
-
-            return (
-              <tr key={field.name}>
-                <td>{field.name}</td>
-                <td>
-                  <span className={fieldClasses}>{field.type.typeName()}</span>
-                </td>
-              </tr>
-            )
-          })}
+          {schema.fields.map((field: RecordField) =>
+            <tr key={field.name}>
+              <td>{field.name}</td>
+              <td>{field.defaultValue}</td>
+              <td>
+                <TypeBadge typeName={field.type.typeName()} schemaType={field.type.schemaType()}></TypeBadge>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
