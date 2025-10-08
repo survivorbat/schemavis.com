@@ -12,8 +12,8 @@ function Diagram({ schema }: DiagramProps) {
   }
 
   return <div className="d-flex flex-wrap justify-content-around">
-    {schema.enums().map((enumSchema) => <Enum key={enumSchema.name} schema={enumSchema}></Enum>)}
-    {schema.records().map((recordSchema) => <Record key={recordSchema.name} schema={recordSchema}></Record>)}
+    {schema.records().map((recordSchema, index) => <Record key={index} schema={recordSchema}></Record>)}
+    {schema.enums().map((enumSchema, index) => <Enum key={index} schema={enumSchema}></Enum>)}
   </div>
 }
 
